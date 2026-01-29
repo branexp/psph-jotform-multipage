@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PSPH provides independent, conflict-free pension guidance for K-12 educators. Schedule a complimentary 30-minute consultation to understand your pension options.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>PSPH - K-12 Pension Guidance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
+  <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/img/site.webmanifest">
+  <meta name="theme-color" content="#002169">
+  <meta name="msapplication-TileColor" content="#002169">
+  
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <a href="/" class="brand">
+        <img src="/assets/img/psph-logo-full.svg" alt="PSPH - Return to homepage" class="logo" />
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#how-it-works" class="active">How it works</a>
+        <a href="#pension-basics">Pension Basics</a>
+        <a href="#about">About</a>
+        <a href="#testimonials">Stories</a>
+        <a href="#faqs">FAQs</a>
+      </nav>
+      <a href="/" class="cta">Schedule an Appointment</a>
+      <button class="mobile-menu-btn" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav">
+    <a href="#how-it-works">How it works</a>
+    <a href="#pension-basics">Pension Basics</a>
+    <a href="#about">About</a>
+    <a href="#testimonials">Stories</a>
+    <a href="#faqs">FAQs</a>
+    <a href="/">Schedule an Appointment</a>
+  </div>
+
+  <!-- Hero Banner -->
+  <section class="hero" aria-label="Hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Confused About Your Pension? We Can Help.</h1>
+        <p class="subtitle">Clear, objective guidance for K–12 educators.</p>
+        <div class="btn-group">
+          <a href="/" class="btn btn-primary"><i class="fas fa-calendar"></i> Schedule an Appointment</a>
+          <a href="#pension-basics" class="btn btn-secondary"><i class="fas fa-graduation-cap"></i> Learn About Your Pension</a>
+        </div>
+        <div class="badge-group">
+          <span class="badge">Independent & conflict‑free</span>
+          <span class="badge">Privacy first</span>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="icon-placeholder">
+          <span class="icon-stack">
+            <i class="fas fa-chalkboard-user icon-main" aria-hidden="true"></i>
+            <i class="fas fa-circle-check icon-badge" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <h2>How your pension session works</h2>
+      <p class="how-subtitle">Simple steps, real clarity.</p>
+
+      <div class="process-steps">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <i class="fas fa-user-edit step-icon"></i>
+          <h3>Share your situation</h3>
+          <p>Your role, service years, and goals</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <i class="fas fa-video step-icon"></i>
+          <h3>Meet your specialist</h3>
+          <p>30‑minute video or phone session</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <i class="fas fa-file-lines step-icon"></i>
+          <h3>Receive your action plan</h3>
+          <p>Clear next steps emailed to you</p>
+        </div>
+      </div>
+
+      <div class="calendar-section">
+        <h3>See available times</h3>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button id="prevMonth" type="button" aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
+            <h4 id="currentMonth">Loading calendar...</h4>
+            <button id="nextMonth" type="button" aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
+          </div>
+
+          <div class="calendar-grid" id="calendarGrid">
+            <!-- Calendar will be generated by JavaScript -->
+            <div class="loading-spinner">
+              <span class="loading-spinner-text">Loading calendar...</span>
+            </div>
+          </div>
+          <noscript>
+            <p style="color: var(--secondary); margin-top: 1rem;">
+              JavaScript is required to view the calendar. Please <a href="/" style="color: var(--primary);">visit the scheduling page</a> to book an appointment.
+            </p>
+          </noscript>
+        </div>
+
+        <div class="btn-group" style="justify-content: center; margin-top: 20px;">
+          <a href="/" class="btn btn-primary">View Full Calendar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links
+  <section class="quick-links" id="quick-links">
+    <div class="container">
+      <h2>Quick Links</h2>
+      <div class="card-group">
+        <a href="#pension-basics" class="card">
+          <h3>Learn About Your Pension</h3>
+          <p>Explore pension basics</p>
+        </a>
+        <a href="#about" class="card">
+          <h3>Why PSPH?</h3>
+          <p>Objective guidance, no sales</p>
+        </a>
+        <a href="#testimonials" class="card">
+          <h3>Hear Other K–12 Educators</h3>
+          <p>Read educator stories</p>
+        </a>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Pension Basics Preview -->
+  <section class="pension-preview" id="pension-basics">
+    <div class="container">
+      <div class="pension-content">
+        <h2>Understanding Your Pension</h2>
+        <ul>
+          <li>Vesting and service credit basics</li>
+          <li>Changing employers or locations</li>
+          <li>Social Security offsets (WEP/GPO)</li>
+          <li>Buying time and retirement timing</li>
+        </ul>
+        <a href="/" class="btn btn-secondary">Explore Pension Basics</a>
+      </div>
+      <div class="pension-image">
+        <div class="icon-placeholder">
+          <i class="fas fa-chart-pie" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Preview -->
+  <section class="about-preview" id="about">
+    <div class="container">
+      <div class="about-content">
+        <h2>About PSPH</h2>
+        <p class="about-description">We help K–12 employees make sense of their pensions with clear, objective guidance.
+          No products, no commissions.</p>
+        <a href="/" class="btn btn-secondary">Learn More</a>
+      </div>
+      <div class="about-image">
+        <div class="icon-placeholder">
+          <i class="fas fa-handshake" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <h2>What educators say</h2>
+      <div class="testimonial-carousel">
+        <button class="carousel-btn carousel-prev" aria-label="Previous testimonial">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="testimonial-track">
+          <!-- Testimonials loaded dynamically from reviews.json -->
+        </div>
+        <button class="carousel-btn carousel-next" aria-label="Next testimonial">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="carousel-dots"></div>
+      <a href="/" class="btn btn-secondary">Schedule Your Session</a>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="faqs" id="faqs">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-group">
+        <div class="faq-item">
+          <h3><i class="fas fa-comments"></i> What will we cover in a session?</h3>
+          <p>Pension estimate, options, next steps, Q&A.</p>
+        </div>
+        <div class="faq-item">
+          <h3><i class="fas fa-clock"></i> Is there a cost? How long is the session?</h3>
+          <p>30 minutes. Pricing or "free" shown before booking.</p>
+        </div>
+        <div class="faq-item">
+          <h3><i class="fas fa-hand-holding-dollar"></i> Do you sell financial products?</h3>
+          <p>No. We provide objective guidance only.</p>
+        </div>
+        <div class="faq-item">
+          <h3><i class="fas fa-clipboard-list"></i> What should I bring?</h3>
+          <p>Recent pay stub, service credit info, your questions.</p>
+        </div>
+      </div>
+      <a href="/" class="btn btn-secondary">View All FAQs</a>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Here's what to expect when you book a session</h2>
+      <ul>
+        <li>30‑minute video or phone session</li>
+        <li>Personalized answers to your questions</li>
+        <li>Written action plan after your session</li>
+      </ul>
+      <a href="/" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book Your Session</a>
+    </div>
+  </section>
+
+  <section class="contact-us" id="contact">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <div class="contact-content">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238l-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"
+                  fill="rgba(21,0,112,1)" />
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Email</h3>
+              <p>hello@psph.org</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M21 16.42v3.536a1 1 0 0 1-.93.998c-.437.03-.794.046-1.07.046-8.837 0-16-7.163-16-16 0-.276.015-.633.046-1.07A1 1 0 0 1 4.044 3H7.58a.5.5 0 0 1 .498.45c.023.23.044.413.064.552A13.901 13.901 0 0 0 9.35 8.003c.095.2.033.439-.147.567l-2.158 1.542a13.047 13.047 0 0 0 6.844 6.844l1.54-2.154a.462.462 0 0 1 .573-.149 13.901 13.901 0 0 0 4 1.205c.139.02.322.042.55.064a.5.5 0 0 1 .449.498z"
+                  fill="rgba(21,0,112,1)" />
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Phone</h3>
+              <p>(603) 960-4295</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm1-14v4h2v2h-4v-6h2z"
+                  fill="rgba(21,0,112,1)" />
+              </svg>
+            </div>
+            <div class="contact-details">
+              <h3>Response Time</h3>
+              <p>Typical response: within 1 business day</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <div class="footer-nav-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#pension-basics">Pension Basics</a></li>
+            <li><a href="#about">About PSPH</a></li>
+            <li><a href="#testimonials">Educator Stories</a></li>
+            <li><a href="#faqs">FAQs</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-section">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy">Privacy Policy</a></li>
+            <li><a href="/terms">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-nav-section">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@psph.org"><i class="fas fa-envelope"></i> hello@psph.org</a></li>
+            <li><a href="tel:+16039604295"><i class="fas fa-phone"></i> (603) 960-4295</a></li>
+            <li><a href="/"><i class="fas fa-calendar"></i> Schedule Appointment</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="footer-bottom">
+        <p class="footer-disclaimer">
+          Public School Pension Help (PSPH) helps public employees better understand their pension and retirement options by connecting them with qualified, independent service professionals. PSPH is a coordinating service and is not affiliated with any school district, union, or pension system.
+        </p>
+        <p class="footer-copyright">© 2026 Public School Pension Help. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/scripts/main.js" defer></script>
+</body>
+
+</html>

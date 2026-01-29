@@ -1,0 +1,21 @@
+# Copilot Setup Steps
+# This workflow configures the development environment for GitHub Copilot coding agent.
+# It ensures the agent has the necessary tools to work with this static website repository.
+
+name: "Copilot Setup Steps"
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # This is a static HTML/CSS/JS website with no build process.
+      # No additional setup steps are required.
+      # The repository can be worked on directly without any compilation or dependencies.
