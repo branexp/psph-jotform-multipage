@@ -318,6 +318,20 @@ a:hover {
   font-size: 0.875rem;
   font-weight: 500;
   box-shadow: var(--shadow);
+  white-space: nowrap; /* Prevent awkward wrapping inside badge */
+}
+
+/* Badge group mobile improvements - L1 fix */
+@media (max-width: 576px) {
+  .badge-group {
+    gap: 0.5rem;
+    justify-content: center;
+  }
+  
+  .badge {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
 }
 
 .hero-image {
@@ -464,21 +478,50 @@ a:hover {
   text-align: center;
 }
 
+/* M2 Fix: Improved testimonial typography */
 .testimonial-text {
   font-style: italic;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: var(--dark);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.testimonial-text::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--accent);
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  font-family: Georgia, serif;
+  line-height: 1;
+  opacity: 0.5;
 }
 
 .testimonial-author {
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 0.25rem;
+  font-size: 1rem;
 }
 
 .testimonial-role {
   color: var(--gray);
   font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Visual separator between quote and author */
+.testimonial-card .testimonial-author::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background-color: var(--accent);
+  margin: 0 auto 0.75rem;
 }
 
 .carousel-btn {
@@ -705,6 +748,15 @@ a:hover {
 @media (max-width: 576px) {
   .btn-group {
     flex-direction: column;
+    gap: 0.75rem; /* Adequate spacing between stacked buttons */
+  }
+  
+  /* Minimum touch targets for buttons */
+  .btn-group .btn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .card-group {
@@ -772,6 +824,9 @@ a:hover {
   box-shadow: var(--shadow);
   text-align: center;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .step-number {
@@ -798,6 +853,18 @@ a:hover {
 
 .step-card p {
   color: var(--gray);
+  margin-bottom: 0;
+}
+
+/* L2 Fix: Better icon alignment in process steps */
+.step-icon {
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Calendar Section */
@@ -863,18 +930,23 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.9rem;
 }
 
 .calendar-cell.header {
   font-weight: bold;
   background-color: transparent;
   color: var(--secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .calendar-cell.today {
   background-color: var(--accent);
   color: var(--primary);
   font-weight: bold;
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .calendar-cell.available {
@@ -882,6 +954,7 @@ a:hover {
   color: var(--primary);
   cursor: pointer;
   transition: var(--transition);
+  font-weight: 500;
 }
 
 .calendar-cell.available:hover,
@@ -957,16 +1030,35 @@ a:hover {
   fill: var(--primary);
 }
 
+/* L3 Fix: Improved contact information hierarchy */
+.contact-icon i {
+  font-size: 1.75rem;
+  color: var(--primary);
+}
+
 .contact-details h3 {
   margin-bottom: 0.5rem;
   color: var(--primary);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .contact-details p {
   color: var(--gray);
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
+}
+
+.contact-details a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.contact-details a:hover {
+  color: var(--secondary);
+  text-decoration: underline;
 }
 
 /* Responsive adjustments for section-specific layouts */
@@ -1128,6 +1220,153 @@ a:hover {
   display: none;
 }
 
+/* JotForm iframe responsive fixes - Critical for mobile */
+.jotform-loading iframe,
+.jotform-loading .jotform-form,
+.form-wrapper iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  border: none;
+}
+
+/* Ensure JotForm container doesn't overflow */
+.jotform-loading > *:not(.loading-spinner) {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Mobile-specific form wrapper adjustments */
+@media (max-width: 768px) {
+  .form-wrapper {
+    padding: 1rem 0;
+  }
+  
+  .form-title-section {
+    margin-bottom: 1rem;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+  }
+  
+  .jotform-loading {
+    min-height: 600px; /* More space for stacked form fields */
+  }
+  
+  /* Force iframe to be responsive */
+  .jotform-loading iframe {
+    height: auto !important;
+    min-height: 800px;
+  }
+}
+
+@media (max-width: 425px) {
+  .form-wrapper {
+    padding: 0.5rem 0;
+  }
+  
+  .form-title {
+    font-size: 1.25rem;
+  }
+  
+  .form-title i {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .jotform-loading iframe {
+    min-height: 900px;
+  }
+}
+
+/* Legal Content Pages (Privacy, Terms) */
+/* M3 Fix: Consistent content width with other pages */
+.legal-content {
+  padding: 2rem 0;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.legal-content h2 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem 0;
+}
+
+.legal-content h3 {
+  color: var(--secondary);
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.legal-content p {
+  margin-bottom: 1rem;
+}
+
+.legal-content ul {
+  padding-left: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--secondary);
+}
+
+.legal-content li {
+  margin-bottom: 0.5rem;
+}
+
+/* Mobile overrides for legal content - Fix C2 excessive spacing */
+/* Using !important to override inline styles in HTML */
+@media (max-width: 768px) {
+  .legal-content {
+    padding: 1rem 0 !important;
+    line-height: 1.6 !important;
+  }
+  
+  .legal-content h2 {
+    font-size: 1.25rem !important;
+    margin: 1.25rem 0 0.75rem 0 !important;
+  }
+  
+  .legal-content h3 {
+    font-size: 1.1rem !important;
+    margin: 1rem 0 0.5rem 0 !important;
+  }
+  
+  .legal-content p {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .legal-content ul {
+    padding-left: 1.25rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .legal-content li {
+    margin-bottom: 0.35rem !important;
+  }
+  
+  .legal-content div[style*="padding"] {
+    padding: 1rem !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .legal-content {
+    padding: 0.5rem 0 !important;
+  }
+  
+  .legal-content h2 {
+    font-size: 1.15rem !important;
+    margin: 1rem 0 0.5rem 0 !important;
+  }
+  
+  .legal-content h3 {
+    font-size: 1rem !important;
+    margin: 0.75rem 0 0.5rem 0 !important;
+  }
+}
+
 /* Footer Navigation */
 .footer {
   padding: 3rem 0 2rem;
@@ -1194,6 +1433,18 @@ a:hover {
   .footer-nav {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+  
+  /* Improve footer link touch targets */
+  .footer-nav-section li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .footer-nav-section a {
+    display: inline-block;
+    padding: 0.5rem 0;
+    min-height: 44px;
+    line-height: 1.5;
   }
 }
 
