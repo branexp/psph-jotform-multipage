@@ -387,7 +387,7 @@
   }
 
   // =====================
-  // JotForm Loading State with Error Handling
+  // JotForm Loading State with Error Handling & Dynamic Height
   // =====================
   function initJotFormLoading() {
     const formWrapper = document.querySelector('.jotform-loading');
@@ -397,6 +397,58 @@
     const CHECK_INTERVAL = 100;
     let loadAttempted = false;
     let iframeFound = false;
+
+    // JotForm iframe auto-resize handler (official JotForm method)
+    // This listens for postMessage events from JotForm to resize the iframe
+    function handleJotFormMessage(event) {
+      // Verify the message is from JotForm
+      if (!event.origin.includes('jotform.com')) return;
+      
+      const iframe = formWrapper.querySelector('iframe');
+      if (!iframe) return;
+
+      // Parse the message data
+      let args;
+      if (typeof event.data === 'object') {
+        args = event.data;
+      } else if (typeof event.data === 'string') {
+        try {
+          args = JSON.parse(event.data);
+        } catch (e) {
+          // Try legacy format: "scrollHeight:1234"
+          const match = event.data.match(/scrollHeight:(\d+)/);
+          if (match) {
+            args = { scrollHeight: parseInt(match[1], 10) };
+          } else {
+            return;
+          }
+        }
+      } else {
+        return;
+      }
+
+      // Handle height change
+      if (args.scrollHeight) {
+        // Add buffer for mobile (extra padding for touch targets, etc.)
+        const isMobile = window.innerWidth <= 768;
+        const buffer = isMobile ? 100 : 50;
+        const newHeight = parseInt(args.scrollHeight, 10) + buffer;
+        
+        // Only increase height, don't shrink (prevents jumpiness)
+        const currentHeight = parseInt(iframe.style.height, 10) || 0;
+        if (newHeight > currentHeight || currentHeight === 0) {
+          iframe.style.height = newHeight + 'px';
+        }
+      }
+
+      // Handle scroll to top (when form pages change)
+      if (args.action === 'scrollIntoView' || args.action === 'scrollToTop') {
+        formWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Listen for JotForm postMessage events
+    window.addEventListener('message', handleJotFormMessage, false);
 
     // Create error message element (hidden initially)
     const errorMessage = document.createElement('div');

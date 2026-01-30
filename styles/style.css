@@ -1249,6 +1249,9 @@ a:hover {
   max-width: 100% !important;
   min-width: 0 !important;
   border: none;
+  /* Allow dynamic height from JS postMessage handler */
+  height: auto;
+  min-height: 600px;
 }
 
 /* Ensure JotForm container doesn't overflow */
@@ -1270,15 +1273,14 @@ a:hover {
   .form-title {
     font-size: 1.5rem;
   }
-  
+
   .jotform-loading {
-    min-height: 600px; /* More space for stacked form fields */
+    min-height: 800px; /* Initial space before JS resizes */
   }
-  
-  /* Force iframe to be responsive */
+
+  /* Mobile iframe - taller initial height, JS will expand as needed */
   .jotform-loading iframe {
-    height: auto !important;
-    min-height: 800px;
+    min-height: 1200px; /* Increased significantly for calendar/appointment forms */
   }
 }
 
@@ -1295,9 +1297,13 @@ a:hover {
     display: block;
     margin-bottom: 0.5rem;
   }
-  
+
+  .jotform-loading {
+    min-height: 1000px;
+  }
+
   .jotform-loading iframe {
-    min-height: 900px;
+    min-height: 1500px; /* Very tall for small screens with stacked fields */
   }
 }
 
