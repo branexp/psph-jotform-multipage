@@ -1107,11 +1107,32 @@ a:hover {
     padding: 1rem;
   }
 
+  /* Mobile calendar touch target improvements */
   .calendar-cell {
     padding: 8px;
     font-size: 0.875rem;
     min-height: 44px;
     min-width: 44px;
+  }
+
+  .calendar-cell.available {
+    font-weight: 600;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 33, 105, 0.2);
+  }
+
+  .calendar-cell.available:active {
+    transform: scale(0.95);
+    background-color: var(--primary);
+    color: var(--white);
+  }
+
+  .calendar-header button {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .calendar-grid {
@@ -1507,5 +1528,104 @@ a:hover {
 .btn i.fa-arrow-right {
   margin-right: 0;
   margin-left: 0.5rem;
+}
+
+/* =====================
+   Mobile Menu Backdrop Overlay
+   ===================== */
+.mobile-nav-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 33, 105, 0.5);
+  z-index: 98;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-nav-backdrop.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Prevent body scroll when menu is open */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Ensure mobile nav is above backdrop */
+.mobile-nav {
+  z-index: 99;
+}
+
+/* =====================
+   JotForm Error State
+   ===================== */
+.jotform-error {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--light);
+  border-radius: 8px;
+  border: 1px solid var(--light-gray);
+  margin: 1rem 0;
+}
+
+.jotform-error-content i {
+  font-size: 3rem;
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+.jotform-error-content h3 {
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.jotform-error-content p {
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+.jotform-error-content ul {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto 1.5rem;
+  color: var(--gray);
+  padding-left: 1.5rem;
+}
+
+.jotform-error-content li {
+  margin-bottom: 0.5rem;
+}
+
+.jotform-error-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.jotform-error-actions .btn {
+  min-width: 160px;
+}
+
+@media (max-width: 576px) {
+  .jotform-error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .jotform-error-actions .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+/* Hide loading spinner when error is shown */
+.jotform-loading.error .loading-spinner {
+  display: none;
 }
 
