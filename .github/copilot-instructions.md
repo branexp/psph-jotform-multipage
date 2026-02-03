@@ -60,7 +60,6 @@ All code runs inside an IIFE with `'use strict'`. Key modules:
 - **`initCalendar()`**: Renders `#calendarGrid`. Future weekdays (Mon-Sat) get `.available`, link to `/` (schedule form). Never hardcode dates.
 - **`initTestimonialCarousel()`**: Fetches `/assets/data/reviews.json`, uses `textContent` (not innerHTML) to prevent XSS. Auto-rotates every 6s with touch swipe.
 - **`initMobileMenu()`**: `.mobile-menu-btn` toggles `.mobile-nav.active`. Both navs must mirror link order.
-- **`initJotFormLoading()`**: Adds `.loaded` class to `.jotform-loading` wrapper when iframe loads.
 
 ## Data: reviews.json
 
