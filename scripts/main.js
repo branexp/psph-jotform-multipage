@@ -395,17 +395,152 @@
 
     const LOAD_TIMEOUT = 15000; // 15 seconds before showing error
     const CHECK_INTERVAL = 100;
-    let loadAttempted = false;
+    const CONFIRM_GRACE_MS = 3500; // give JotForm a moment to postMessage after iframe load
+
     let iframeFound = false;
+    let jotformConfirmed = false;
+    let loadStarted = false;
+
+    let checkForIframeTimer = null;
+    let loadTimeoutTimer = null;
+
+    function isJotFormOrigin(origin) {
+      try {
+        const host = new URL(origin).hostname.toLowerCase();
+        return (
+          host === 'jotform.com' ||
+          host.endsWith('.jotform.com') ||
+          host === 'jotfor.ms' ||
+          host.endsWith('.jotfor.ms')
+        );
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function cleanupTimers() {
+      if (checkForIframeTimer) clearInterval(checkForIframeTimer);
+      if (loadTimeoutTimer) clearTimeout(loadTimeoutTimer);
+      checkForIframeTimer = null;
+      loadTimeoutTimer = null;
+    }
+
+    // Form ID source:
+    // - Preferred: data-jotform-id on the container (keeps HTML free of third-party URLs)
+    // - Fallback: existing embed script
+    const embedScript = formWrapper.querySelector('script[src*="jotform.com/jsform/"]');
+    const formIdFromData = formWrapper.getAttribute('data-jotform-id');
+    const formIdMatch = embedScript && embedScript.src.match(/jsform\/(\d+)/);
+    const formId = formIdFromData || (formIdMatch ? formIdMatch[1] : null);
+
+    const directFormUrl = formId ? `https://form.jotform.com/${formId}` : 'https://form.jotform.com/';
+
+    const spinnerEl = formWrapper.querySelector('.loading-spinner');
+    const preloadEl = formWrapper.querySelector('.jotform-preload');
+    const loadBtn = formWrapper.querySelector('#loadJotformBtn');
+    const openNewTabBtn = formWrapper.querySelector('#openJotformNewTabBtn');
+
+    // Populate "open in new tab" link without hardcoding JotForm URL in HTML
+    if (openNewTabBtn) {
+      openNewTabBtn.href = directFormUrl;
+    }
+
+    function setSpinnerVisible(visible) {
+      if (!spinnerEl) return;
+      spinnerEl.style.display = visible ? '' : 'none';
+    }
+
+    // Ensure spinner is hidden until user starts a load attempt
+    setSpinnerVisible(false);
+
+    function markLoaded() {
+      formWrapper.classList.add('loaded');
+      setSpinnerVisible(false);
+    }
+
+    // Create error message element (hidden initially)
+    const errorMessage = document.createElement('div');
+    errorMessage.className = 'jotform-error';
+    errorMessage.innerHTML = `
+      <div class="jotform-error-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>Unable to Load Scheduling Form</h3>
+        <p>The form is taking longer than expected to load.</p>
+        <ul>
+          <li>Slow internet connection</li>
+          <li>Ad blocker or privacy extension interference</li>
+          <li><strong>Network filtering (school/office Wi‑Fi) blocking JotForm</strong></li>
+          <li>Temporary service disruption</li>
+        </ul>
+        <div class="jotform-error-actions">
+          <button class="btn btn-primary" type="button" data-action="reload">
+            <i class="fas fa-redo"></i> Try Again
+          </button>
+          <a href="${directFormUrl}" target="_blank" rel="noopener" class="btn btn-secondary">
+            <i class="fas fa-external-link-alt"></i> Open Form in New Tab
+          </a>
+          <a href="/request" class="btn btn-secondary">
+            <i class="fas fa-calendar-plus"></i> Request an Appointment (Works on School Wi‑Fi)
+          </a>
+          <a href="mailto:hello@psph.org?subject=Appointment%20Request" class="btn btn-secondary">
+            <i class="fas fa-envelope"></i> Email Us Instead
+          </a>
+        </div>
+      </div>
+    `;
+    errorMessage.style.display = 'none';
+
+    // Insert error message near the top so it’s visible even if an iframe exists
+    if (preloadEl) {
+      preloadEl.insertAdjacentElement('afterend', errorMessage);
+    } else if (spinnerEl) {
+      spinnerEl.insertAdjacentElement('afterend', errorMessage);
+    } else {
+      formWrapper.appendChild(errorMessage);
+    }
+
+    function showError(mode) {
+      // mode: 'no-iframe' | 'likely-filter'
+      const iframe = formWrapper.querySelector('iframe');
+      if (iframe) iframe.style.display = 'none';
+
+      const p = errorMessage.querySelector('p');
+      if (p) {
+        if (mode === 'no-iframe') {
+          p.textContent = 'The scheduling form could not be loaded. It may be blocked by a network filter (common on school Wi‑Fi) or by a browser extension.';
+        } else {
+          p.textContent = 'The scheduling form appears to be blocked. This is common on school/office Wi‑Fi content filters that block JotForm.';
+        }
+      }
+
+      // Wire buttons without inline JS (CSP-friendly)
+      errorMessage.querySelectorAll('[data-action="reload"]').forEach((btn) => {
+        btn.addEventListener('click', () => location.reload());
+      });
+
+      errorMessage.style.display = 'block';
+      formWrapper.classList.add('error');
+      markLoaded();
+    }
 
     // JotForm iframe auto-resize handler (official JotForm method)
     // This listens for postMessage events from JotForm to resize the iframe
     function handleJotFormMessage(event) {
-      // Verify the message is from JotForm
-      if (!event.origin.includes('jotform.com')) return;
-      
+      // Verify the message is from JotForm (network block pages won't postMessage from a JotForm origin)
+      if (!isJotFormOrigin(event.origin)) return;
+
       const iframe = formWrapper.querySelector('iframe');
       if (!iframe) return;
+
+      jotformConfirmed = true;
+      cleanupTimers();
+
+      if (preloadEl) preloadEl.style.display = 'none';
+
+      iframe.style.display = '';
+      errorMessage.style.display = 'none';
+      formWrapper.classList.remove('error');
+      markLoaded();
 
       // Parse the message data
       let args;
@@ -433,7 +568,7 @@
         const isMobile = window.innerWidth <= 768;
         const buffer = isMobile ? 100 : 50;
         const newHeight = parseInt(args.scrollHeight, 10) + buffer;
-        
+
         // Only increase height, don't shrink (prevents jumpiness)
         const currentHeight = parseInt(iframe.style.height, 10) || 0;
         if (newHeight > currentHeight || currentHeight === 0) {
@@ -450,76 +585,75 @@
     // Listen for JotForm postMessage events
     window.addEventListener('message', handleJotFormMessage, false);
 
-    // Create error message element (hidden initially)
-    const errorMessage = document.createElement('div');
-    errorMessage.className = 'jotform-error';
-    errorMessage.innerHTML = `
-      <div class="jotform-error-content">
-        <i class="fas fa-exclamation-triangle"></i>
-        <h3>Unable to Load Scheduling Form</h3>
-        <p>The form is taking longer than expected to load. This could be due to:</p>
-        <ul>
-          <li>Slow internet connection</li>
-          <li>Ad blocker or privacy extension interference</li>
-          <li>Temporary service disruption</li>
-        </ul>
-        <div class="jotform-error-actions">
-          <button class="btn btn-primary" onclick="location.reload()">
-            <i class="fas fa-redo"></i> Try Again
-          </button>
-          <a href="mailto:hello@psph.org?subject=Appointment%20Request" class="btn btn-secondary">
-            <i class="fas fa-envelope"></i> Email Us Instead
-          </a>
-        </div>
-      </div>
-    `;
-    errorMessage.style.display = 'none';
-    formWrapper.appendChild(errorMessage);
+    function startJotFormLoad() {
+      if (loadStarted) return;
+      loadStarted = true;
 
-    // Check for JotForm iframe periodically
-    const checkForIframe = setInterval(() => {
-      const iframe = formWrapper.querySelector('iframe');
-      if (iframe) {
-        iframeFound = true;
-        
-        // Listen for successful load
-        iframe.addEventListener('load', () => {
-          loadAttempted = true;
-          formWrapper.classList.add('loaded');
-          errorMessage.style.display = 'none';
-        });
-
-        // Fallback: assume loaded after 5 seconds if iframe exists
-        setTimeout(() => {
-          if (!loadAttempted) {
-            formWrapper.classList.add('loaded');
-          }
-        }, 5000);
-        
-        clearInterval(checkForIframe);
+      if (!formId) {
+        showError('no-iframe');
+        return;
       }
-    }, CHECK_INTERVAL);
 
-    // Timeout: show error if form doesn't load
-    setTimeout(() => {
-      clearInterval(checkForIframe);
-      
-      // Only show error if we haven't successfully loaded
-      if (!formWrapper.classList.contains('loaded')) {
-        // Hide loading spinner
-        const spinner = formWrapper.querySelector('.loading-spinner');
-        if (spinner) spinner.style.display = 'none';
-        
-        // If no iframe found at all, likely blocked
-        if (!iframeFound) {
-          errorMessage.querySelector('p').textContent = 
-            'The scheduling form could not be loaded. It may be blocked by your browser or an extension.';
+      // Hide pre-load UI and show spinner
+      if (preloadEl) preloadEl.style.display = 'none';
+      setSpinnerVisible(true);
+
+      // Old microsite behavior: use JotForm's JavaScript embed (jsform).
+      // Note: this still renders the form in an iframe, but we avoid hardcoding it in HTML.
+      const existing = formWrapper.querySelector('script[src*="jotform.com/jsform/"]');
+      if (!existing) {
+        const s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.src = `https://form.jotform.com/jsform/${formId}`;
+        formWrapper.appendChild(s);
+      }
+
+      // Check for JotForm iframe periodically
+      checkForIframeTimer = setInterval(() => {
+        const iframe = formWrapper.querySelector('iframe');
+        if (iframe) {
+          iframeFound = true;
+
+          // Listen for iframe load; note: a network filter block page can still trigger "load"
+          iframe.addEventListener('load', () => {
+            // Stop the spinner after a grace period even if we haven't confirmed postMessage,
+            // but we'll still show a friendly error at LOAD_TIMEOUT if JotForm never confirms.
+            setTimeout(() => {
+              if (!jotformConfirmed) {
+                markLoaded();
+              }
+            }, CONFIRM_GRACE_MS);
+          }, { once: true });
+
+          if (checkForIframeTimer) clearInterval(checkForIframeTimer);
+          checkForIframeTimer = null;
         }
-        
-        errorMessage.style.display = 'block';
-        formWrapper.classList.add('error');
-      }
-    }, LOAD_TIMEOUT);
+      }, CHECK_INTERVAL);
+
+      // Timeout: show error if JotForm doesn't confirm (common when blocked by filters)
+      loadTimeoutTimer = setTimeout(() => {
+        cleanupTimers();
+
+        if (!jotformConfirmed) {
+          if (!iframeFound) {
+            showError('no-iframe');
+          } else {
+            // iframe exists (maybe even loaded), but no JotForm postMessage came through
+            showError('likely-filter');
+          }
+        } else {
+          markLoaded();
+        }
+      }, LOAD_TIMEOUT);
+    }
+
+    // If the page has a load button, wait for user intent (avoids filter heuristics).
+    // Otherwise, fall back to auto-load for legacy templates.
+    if (loadBtn) {
+      loadBtn.addEventListener('click', startJotFormLoad);
+    } else if (embedScript) {
+      startJotFormLoad();
+    }
   }
 
   // =====================
