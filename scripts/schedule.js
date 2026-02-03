@@ -1,9 +1,3 @@
-/**
- * PSPH Schedule Page - Minimal JS
- * Keep / (scheduling page) as close to the old microsite behavior as possible.
- * Only handles mobile menu toggling.
- */
-
 (function () {
   'use strict';
 
@@ -13,7 +7,6 @@
 
     if (!menuBtn || !mobileNav) return;
 
-    // Create backdrop element
     const backdrop = document.createElement('div');
     backdrop.className = 'mobile-nav-backdrop';
     document.body.appendChild(backdrop);

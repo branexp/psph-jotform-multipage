@@ -1,21 +1,12 @@
-/**
- * PSPH Website - Main JavaScript
- * Mobile navigation, calendar, and testimonial carousel functionality
- */
-
 (function () {
   'use strict';
 
-  // =====================
-  // Mobile Menu Toggle with Backdrop
-  // =====================
   function initMobileMenu() {
     const menuBtn = document.querySelector('.mobile-menu-btn');
     const mobileNav = document.querySelector('.mobile-nav');
 
     if (!menuBtn || !mobileNav) return;
 
-    // Create backdrop element
     const backdrop = document.createElement('div');
     backdrop.className = 'mobile-nav-backdrop';
     document.body.appendChild(backdrop);
@@ -46,15 +37,12 @@
 
     menuBtn.addEventListener('click', toggleMenu);
 
-    // Close menu when backdrop is clicked
     backdrop.addEventListener('click', closeMenu);
 
-    // Close mobile menu when clicking a link
     document.querySelectorAll('.mobile-nav a').forEach(link => {
       link.addEventListener('click', closeMenu);
     });
 
-    // Close on Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
         closeMenu();
@@ -62,9 +50,6 @@
     });
   }
 
-  // =====================
-  // Active Navigation Highlighting
-  // =====================
   function initNavHighlighting() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav a, .mobile-nav a');
@@ -94,9 +79,6 @@
     window.addEventListener('load', highlightNav);
   }
 
-  // =====================
-  // Dynamic Calendar
-  // =====================
   function initCalendar() {
     const calendarGrid = document.getElementById('calendarGrid');
     const currentMonthEl = document.getElementById('currentMonth');
@@ -113,7 +95,6 @@
     ];
 
     function renderCalendar() {
-      // Remove loading spinner if present
       const loadingSpinner = calendarGrid.parentElement.querySelector('.loading-spinner');
       if (loadingSpinner) {
         loadingSpinner.remove();
@@ -122,15 +103,12 @@
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth();
 
-      // Set month/year display
       if (currentMonthEl) {
         currentMonthEl.textContent = `${monthNames[month]} ${year}`;
       }
 
-      // Clear calendar
       calendarGrid.innerHTML = '';
 
-      // Add day headers
       const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       dayHeaders.forEach(day => {
         const header = document.createElement('div');
@@ -139,19 +117,16 @@
         calendarGrid.appendChild(header);
       });
 
-      // Get first day of month and number of days
       const firstDay = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const today = new Date();
 
-      // Add empty cells for days before month starts
       for (let i = 0; i < firstDay; i++) {
         const emptyCell = document.createElement('div');
         emptyCell.className = 'calendar-cell';
         calendarGrid.appendChild(emptyCell);
       }
 
-      // Add days of month
       for (let day = 1; day <= daysInMonth; day++) {
         const cell = document.createElement('div');
         cell.className = 'calendar-cell';
@@ -159,12 +134,10 @@
 
         const cellDate = new Date(year, month, day);
 
-        // Mark today
         if (cellDate.toDateString() === today.toDateString()) {
           cell.classList.add('today');
         }
 
-        // Mark weekdays (Mon-Sat) as available if they're in the future
         const dayOfWeek = cellDate.getDay();
         if (cellDate > today && dayOfWeek >= 1 && dayOfWeek <= 6) {
           cell.classList.add('available');
@@ -172,7 +145,6 @@
           cell.setAttribute('role', 'button');
           cell.setAttribute('aria-label', `Schedule an appointment on ${monthNames[month]} ${day}, ${year}`);
 
-          // Multipage structure: schedule form is at root (/)
           const navigateToSchedule = () => {
             window.location.href = '/';
           };
@@ -190,7 +162,6 @@
       }
     }
 
-    // Calendar navigation
     if (prevMonthBtn) {
       prevMonthBtn.addEventListener('click', () => {
         currentDate.setMonth(currentDate.getMonth() - 1);
@@ -205,13 +176,9 @@
       });
     }
 
-    // Initialize
     renderCalendar();
   }
 
-  // =====================
-  // Testimonial Carousel
-  // =====================
   function initTestimonialCarousel() {
     const track = document.querySelector('.testimonial-track');
     const dotsContainer = document.querySelector('.carousel-dots');
@@ -224,7 +191,6 @@
     let autoRotateInterval;
     let totalSlides = 0;
 
-    // Show loading skeleton
     function showLoadingSkeleton() {
       track.innerHTML = `
         <div class="testimonial-card skeleton-card">
@@ -244,7 +210,6 @@
         const response = await fetch('/assets/data/reviews.json');
         const data = await response.json();
 
-        // Filter reviews with non-empty review_text
         const reviews = data.reviews.filter(r => r.review_text && r.review_text.trim() !== '');
 
         if (reviews.length === 0) {
@@ -255,16 +220,13 @@
 
         totalSlides = reviews.length;
 
-        // Clear loading skeleton
         track.innerHTML = '';
         if (dotsContainer) dotsContainer.innerHTML = '';
 
         reviews.forEach((review, index) => {
-          // Create testimonial card
           const card = document.createElement('div');
           card.className = 'testimonial-card';
 
-          // Create elements safely using textContent to prevent XSS
           const textP = document.createElement('p');
           textP.className = 'testimonial-text';
           textP.textContent = `"${review.review_text}"`;
@@ -282,7 +244,6 @@
           card.appendChild(roleP);
           track.appendChild(card);
 
-          // Create dot indicator
           if (dotsContainer) {
             const dot = document.createElement('button');
             dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
@@ -292,7 +253,6 @@
           }
         });
 
-        // Add aria-live for accessibility
         track.setAttribute('aria-live', 'polite');
         track.setAttribute('aria-atomic', 'true');
 
@@ -320,10 +280,8 @@
         });
       }
 
-      // Auto-rotate every 6 seconds
       startAutoRotate();
 
-      // Add touch swipe support
       addSwipeSupport();
     }
 
@@ -369,7 +327,6 @@
         const endX = e.changedTouches[0].clientX;
         const diff = startX - endX;
 
-        // Swipe threshold of 50px
         if (Math.abs(diff) > 50) {
           if (diff > 0) {
             currentSlide = (currentSlide + 1) % totalSlides;
@@ -382,15 +339,11 @@
       });
     }
 
-    // Initialize
     loadTestimonials();
   }
 
 
 
-  // =====================
-  // Initialize All
-  // =====================
   function init() {
     initMobileMenu();
     initNavHighlighting();
@@ -398,7 +351,6 @@
     initTestimonialCarousel();
   }
 
-  // Run on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
