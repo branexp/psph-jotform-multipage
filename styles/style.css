@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +10,6 @@ html {
   scroll-padding-top: 80px;
 }
 
-/* Scroll offset for anchor targets */
 section[id] {
   scroll-margin-top: 80px;
 }
@@ -28,8 +27,7 @@ section[id] {
   --background: #f5f7fa;
   --shadow: 0 4px 12px rgba(0, 33, 105, 0.08);
   --transition: all 0.3s ease;
-  
-  /* Typography */
+
   --font-serif: 'Merriweather', Georgia, 'Times New Roman', serif;
   --font-sans: 'Merriweather Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -48,7 +46,6 @@ body {
   padding: 0 20px;
 }
 
-/* Typography */
 h1,
 h2,
 h3,
@@ -85,7 +82,6 @@ a:hover {
   text-decoration: none;
 }
 
-/* Header */
 .header {
   background-color: var(--white);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -141,7 +137,6 @@ a:hover {
   border-bottom-color: var(--accent);
 }
 
-/* CTA Button - Styled consistently with .btn-primary */
 .cta {
   display: inline-block;
   background-color: var(--accent);
@@ -237,7 +232,6 @@ a:hover {
   border-bottom: none;
 }
 
-/* Hero Section */
 .hero {
   padding: 4rem 0;
   background: linear-gradient(to right, var(--primary-light) 0%, rgba(230, 242, 255, 0.5) 100%);
@@ -318,16 +312,15 @@ a:hover {
   font-size: 0.875rem;
   font-weight: 500;
   box-shadow: var(--shadow);
-  white-space: nowrap; /* Prevent awkward wrapping inside badge */
+  white-space: nowrap;
 }
 
-/* Badge group mobile improvements - L1 fix */
 @media (max-width: 576px) {
   .badge-group {
     gap: 0.5rem;
     justify-content: center;
   }
-  
+
   .badge {
     padding: 0.4rem 0.75rem;
     font-size: 0.8rem;
@@ -361,7 +354,6 @@ a:hover {
   font-size: 0.875rem;
 }
 
-/* Icon Placeholder - replaces image placeholders with FA icons */
 .icon-placeholder {
   width: 100%;
   max-width: 400px;
@@ -380,7 +372,6 @@ a:hover {
   color: var(--primary);
 }
 
-/* Stacked icon composition for hero */
 .icon-placeholder .icon-stack {
   position: relative;
   display: inline-block;
@@ -401,7 +392,6 @@ a:hover {
   border-radius: 50%;
 }
 
-/* Quick Links */
 .quick-links {
   padding: 4rem 0;
   background-color: var(--white);
@@ -442,7 +432,6 @@ a:hover {
   color: var(--gray);
 }
 
-/* Testimonials */
 .testimonials {
   padding: 4rem 0;
   background-color: var(--light);
@@ -453,7 +442,6 @@ a:hover {
   margin-bottom: 3rem;
 }
 
-/* Testimonial Carousel */
 .testimonial-carousel {
   position: relative;
   display: flex;
@@ -478,7 +466,6 @@ a:hover {
   text-align: center;
 }
 
-/* M2 Fix: Improved testimonial typography */
 .testimonial-text {
   font-style: italic;
   margin-bottom: 1.5rem;
@@ -514,7 +501,6 @@ a:hover {
   font-size: 0.9rem;
 }
 
-/* Visual separator between quote and author */
 .testimonial-card .testimonial-author::before {
   content: '';
   display: block;
@@ -567,7 +553,6 @@ a:hover {
   margin: 0 auto;
 }
 
-/* About Preview */
 .about-preview {
   padding: 4rem 0;
   background-color: var(--white);
@@ -595,7 +580,6 @@ a:hover {
   justify-content: center;
 }
 
-/* Pension Preview */
 .pension-preview {
   padding: 4rem 0;
   background-color: var(--light);
@@ -627,7 +611,6 @@ a:hover {
   justify-content: center;
 }
 
-/* FAQs */
 .faqs {
   padding: 4rem 0;
   background-color: var(--white);
@@ -666,7 +649,6 @@ a:hover {
   margin: 0 auto;
 }
 
-/* CTA Section */
 .cta-section {
   padding: 4rem 0;
   background-color: var(--primary);
@@ -699,9 +681,6 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* Footer styles moved to end of file for organization */
-
-/* Responsive Design */
 @media (max-width: 992px) {
   h1 {
     font-size: 2.2rem;
@@ -748,10 +727,9 @@ a:hover {
 @media (max-width: 576px) {
   .btn-group {
     flex-direction: column;
-    gap: 0.75rem; /* Adequate spacing between stacked buttons */
+    gap: 0.75rem;
   }
-  
-  /* Minimum touch targets for buttons */
+
   .btn-group .btn {
     min-height: 44px;
     display: flex;
@@ -763,7 +741,6 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  /* Carousel mobile improvements */
   .carousel-btn {
     width: 48px;
     height: 48px;
@@ -773,7 +750,6 @@ a:hover {
     gap: 0.5rem;
   }
 
-  /* Icon placeholder mobile sizing */
   .icon-placeholder {
     max-width: 280px;
     height: 200px;
@@ -793,7 +769,6 @@ a:hover {
   }
 }
 
-/* How It Works Section */
 .how-it-works {
   padding: 4rem 0;
   background-color: var(--white);
@@ -856,7 +831,6 @@ a:hover {
   margin-bottom: 0;
 }
 
-/* L2 Fix: Better icon alignment in process steps */
 .step-icon {
   font-size: 2.5rem;
   color: var(--primary);
@@ -867,7 +841,6 @@ a:hover {
   justify-content: center;
 }
 
-/* Calendar Section */
 .calendar-section {
   background-color: var(--light);
   border-radius: 8px;
@@ -965,7 +938,6 @@ a:hover {
   outline-offset: -2px;
 }
 
-/* Contact Us Section */
 .contact-us {
   padding: 4rem 0;
   background-color: var(--white);
@@ -1030,7 +1002,6 @@ a:hover {
   fill: var(--primary);
 }
 
-/* L3 Fix: Improved contact information hierarchy */
 .contact-icon i {
   font-size: 1.75rem;
   color: var(--primary);
@@ -1061,7 +1032,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Responsive adjustments for section-specific layouts */
 @media (max-width: 992px) {
   .contact-info {
     flex-wrap: wrap;
@@ -1107,7 +1077,6 @@ a:hover {
     padding: 1rem;
   }
 
-  /* Mobile calendar touch target improvements */
   .calendar-cell {
     padding: 8px;
     font-size: 0.875rem;
@@ -1140,16 +1109,28 @@ a:hover {
   }
 }
 
-/* Schedule Page Form Styles */
 .form-wrapper {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 1.5rem 0 1rem;
 }
 
 .form-title-section {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.schedule-alt-text {
+  color: var(--gray);
+  margin: 0 0 0.75rem;
+  text-align: center;
+}
+
+.schedule-alt-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .form-title {
@@ -1158,7 +1139,6 @@ a:hover {
   margin-bottom: 0;
 }
 
-/* Loading States */
 .loading-spinner {
   display: flex;
   flex-direction: column;
@@ -1187,7 +1167,6 @@ a:hover {
   font-size: 0.9rem;
 }
 
-/* Skeleton loader for testimonials */
 .skeleton {
   background: linear-gradient(90deg, var(--light-gray) 25%, var(--light) 50%, var(--light-gray) 75%);
   background-size: 200% 100%;
@@ -1223,7 +1202,6 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
-/* JotForm loading overlay */
 .jotform-loading {
   position: relative;
   min-height: 400px;
@@ -1241,7 +1219,6 @@ a:hover {
   display: none;
 }
 
-/* JotForm iframe responsive fixes - Critical for mobile */
 .jotform-loading iframe,
 .jotform-loading .jotform-form,
 .form-wrapper iframe {
@@ -1249,38 +1226,34 @@ a:hover {
   max-width: 100% !important;
   min-width: 0 !important;
   border: none;
-  /* Allow dynamic height from JS postMessage handler */
   height: auto;
   min-height: 600px;
 }
 
-/* Ensure JotForm container doesn't overflow */
 .jotform-loading > *:not(.loading-spinner) {
   max-width: 100%;
   overflow-x: hidden;
 }
 
-/* Mobile-specific form wrapper adjustments */
 @media (max-width: 768px) {
   .form-wrapper {
     padding: 1rem 0;
   }
-  
+
   .form-title-section {
     margin-bottom: 1rem;
   }
-  
+
   .form-title {
     font-size: 1.5rem;
   }
 
   .jotform-loading {
-    min-height: 800px; /* Initial space before JS resizes */
+    min-height: 800px;
   }
 
-  /* Mobile iframe - taller initial height, JS will expand as needed */
   .jotform-loading iframe {
-    min-height: 1200px; /* Increased significantly for calendar/appointment forms */
+    min-height: 1200px;
   }
 }
 
@@ -1288,11 +1261,11 @@ a:hover {
   .form-wrapper {
     padding: 0.5rem 0;
   }
-  
+
   .form-title {
     font-size: 1.25rem;
   }
-  
+
   .form-title i {
     display: block;
     margin-bottom: 0.5rem;
@@ -1303,12 +1276,10 @@ a:hover {
   }
 
   .jotform-loading iframe {
-    min-height: 1500px; /* Very tall for small screens with stacked fields */
+    min-height: 1500px;
   }
 }
 
-/* Legal Content Pages (Privacy, Terms) */
-/* M3 Fix: Consistent content width with other pages */
 .legal-content {
   padding: 2rem 0;
   max-width: 800px;
@@ -1342,37 +1313,35 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
-/* Mobile overrides for legal content - Fix C2 excessive spacing */
-/* Using !important to override inline styles in HTML */
 @media (max-width: 768px) {
   .legal-content {
     padding: 1rem 0 !important;
     line-height: 1.6 !important;
   }
-  
+
   .legal-content h2 {
     font-size: 1.25rem !important;
     margin: 1.25rem 0 0.75rem 0 !important;
   }
-  
+
   .legal-content h3 {
     font-size: 1.1rem !important;
     margin: 1rem 0 0.5rem 0 !important;
   }
-  
+
   .legal-content p {
     margin-bottom: 0.75rem !important;
   }
-  
+
   .legal-content ul {
     padding-left: 1.25rem !important;
     margin-bottom: 1rem !important;
   }
-  
+
   .legal-content li {
     margin-bottom: 0.35rem !important;
   }
-  
+
   .legal-content div[style*="padding"] {
     padding: 1rem !important;
   }
@@ -1382,19 +1351,18 @@ a:hover {
   .legal-content {
     padding: 0.5rem 0 !important;
   }
-  
+
   .legal-content h2 {
     font-size: 1.15rem !important;
     margin: 1rem 0 0.5rem 0 !important;
   }
-  
+
   .legal-content h3 {
     font-size: 1rem !important;
     margin: 0.75rem 0 0.5rem 0 !important;
   }
 }
 
-/* Footer Navigation */
 .footer {
   padding: 3rem 0 2rem;
   background-color: var(--dark);
@@ -1461,12 +1429,11 @@ a:hover {
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
-  /* Improve footer link touch targets */
+
   .footer-nav-section li {
     margin-bottom: 0.75rem;
   }
-  
+
   .footer-nav-section a {
     display: inline-block;
     padding: 0.5rem 0;
@@ -1475,7 +1442,6 @@ a:hover {
   }
 }
 
-/* Breadcrumb Navigation */
 .breadcrumb {
   padding: 1rem 0;
   background-color: var(--light);
@@ -1515,7 +1481,6 @@ a:hover {
   color: var(--gray);
 }
 
-/* Icon enhancements for steps and FAQs */
 .step-icon {
   font-size: 2rem;
   color: var(--primary);
@@ -1536,9 +1501,6 @@ a:hover {
   margin-left: 0.5rem;
 }
 
-/* =====================
-   Mobile Menu Backdrop Overlay
-   ===================== */
 .mobile-nav-backdrop {
   display: none;
   position: fixed;
@@ -1557,19 +1519,14 @@ a:hover {
   opacity: 1;
 }
 
-/* Prevent body scroll when menu is open */
 body.menu-open {
   overflow: hidden;
 }
 
-/* Ensure mobile nav is above backdrop */
 .mobile-nav {
   z-index: 99;
 }
 
-/* =====================
-   JotForm Error State
-   ===================== */
 .jotform-error {
   text-align: center;
   padding: 2rem;
@@ -1623,14 +1580,13 @@ body.menu-open {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .jotform-error-actions .btn {
     width: 100%;
     max-width: 280px;
   }
 }
 
-/* Hide loading spinner when error is shown */
 .jotform-loading.error .loading-spinner {
   display: none;
 }
