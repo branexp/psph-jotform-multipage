@@ -479,8 +479,8 @@
           <a href="${directFormUrl}" target="_blank" rel="noopener" class="btn btn-secondary">
             <i class="fas fa-external-link-alt"></i> Open Form in New Tab
           </a>
-          <a href="/request" class="btn btn-secondary">
-            <i class="fas fa-calendar-plus"></i> Request an Appointment (Works on School Wi‑Fi)
+          <a href="mailto:hello@psph.org?subject=Appointment%20Request" class="btn btn-secondary">
+            <i class="fas fa-envelope"></i> Email to Request an Appointment
           </a>
           <a href="mailto:hello@psph.org?subject=Appointment%20Request" class="btn btn-secondary">
             <i class="fas fa-envelope"></i> Email Us Instead
