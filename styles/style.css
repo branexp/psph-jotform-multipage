@@ -1163,6 +1163,7 @@ a:hover {
   }
 }
 
+/* Schedule page form container - widened to 980px to address desktop JotForm spacing (refs: desktop_spacing_issue.png) */
 .form-wrapper {
   max-width: 980px;
   margin: 0 auto;
