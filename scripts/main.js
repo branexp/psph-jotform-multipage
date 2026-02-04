@@ -112,7 +112,7 @@
       const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       dayHeaders.forEach(day => {
         const header = document.createElement('div');
-        header.className = 'calendar-cell header';
+        header.className = 'calendar-cell calendar-header-cell';
         header.textContent = day;
         calendarGrid.appendChild(header);
       });
